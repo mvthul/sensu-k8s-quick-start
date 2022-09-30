@@ -94,7 +94,8 @@ spec:
       containers:
       - name: etcd
         image: gcr.io/etcd-development/etcd:v3.5.5
-        command: [
+        command: ["/bin/bash","-c"]
+        args: [
           "apt update -y && apt install wget -y && /usr/local/bin/etcd",
           "--data-dir", "/var/lib/etcd",
           "--initial-cluster-state", "new",
