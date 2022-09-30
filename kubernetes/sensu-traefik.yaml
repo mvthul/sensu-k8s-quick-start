@@ -8,7 +8,7 @@ spec:
     - websecure
   routes:
     - kind: Rule
-      match: Host(`sensu.vthul-it.nl`)
+      match: Host(`sensu.hostname.nl`)
       services:
         - name: sensu-lb
           port: 3000
