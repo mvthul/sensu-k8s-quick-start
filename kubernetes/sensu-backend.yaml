@@ -128,15 +128,15 @@ spec:
           #   memory: 4096M
           #   cpu: 2.0
         readinessProbe:
-          # initialDelaySeconds: 5
-          # periodSeconds: 5
-          # exec:
-          #   command:
-          #   - wget
-          #   - --no-check-certificate
-          #   - -q
-          #   - -O-
-          #   - http://127.0.0.1:2379/health
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          exec:
+            command:
+            - wget
+            - --no-check-certificate
+            - -q
+            - -O-
+            - http://127.0.0.1:2379/health
 
       - name: sensu-agent
         image: sensu/sensu:6.7.2
@@ -218,10 +218,19 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
+        - name: ETCD_PODIP
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations.cni.projectcalico.org/podIP
         - name: TARGET_DNS
           value: "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local"
         ports: []
         volumeMounts: []
+      hostAliases:
+        - ip: "$(ETCD_PODIP)"
+          hostnames:
+          - "$(TARGET_DNS)" 
+          - "sensu-etcd-0"
       containers:
       - name: sensu-backend
         image: sensu/sensu:6.7.2
@@ -242,8 +251,6 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
-        - name: ETCD_ENDPOINTS
-          value: "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local"
         volumeMounts: []
         ports:
         - protocol: TCP
