@@ -121,12 +121,12 @@ spec:
         - protocol: TCP
           containerPort: 2380
         resources:
-          requests:
-            memory: 2048M
-            cpu: 1.0
-          limits:
-            memory: 4096M
-            cpu: 2.0
+          # requests:
+          #   memory: 2048M
+          #   cpu: 1.0
+          # limits:
+          #   memory: 4096M
+          #   cpu: 2.0
         readinessProbe:
           initialDelaySeconds: 5
           periodSeconds: 5
@@ -191,7 +191,7 @@ spec:
     matchLabels:
       app: sensu
   serviceName: sensu
-  replicas: 3
+  replicas: 1
   updateStrategy:
     type: RollingUpdate
   template:
@@ -251,12 +251,12 @@ spec:
         - protocol: TCP
           containerPort: 3000
         resources:
-          requests:
-            memory: 2048M
-            cpu: 1.0
-          limits:
-            memory: 4096M
-            cpu: 2.0
+          # requests:
+          #   memory: 2048M
+          #   cpu: 1.0
+          # limits:
+          #   memory: 4096M
+          #   cpu: 2.0
         readinessProbe:
           initialDelaySeconds: 30
           periodSeconds: 30

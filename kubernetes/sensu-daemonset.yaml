@@ -75,9 +75,9 @@ spec:
           hostPort: 3031
           protocol: TCP
         resources:
-          limits:
-            cpu: 1.0
-            memory: 1024M
-          requests:
-            cpu: 0.5
-            memory: 256M
+          # limits:
+          #   cpu: 1.0
+          #   memory: 1024M
+          # requests:
+          #   cpu: 0.5
+          #   memory: 256M
