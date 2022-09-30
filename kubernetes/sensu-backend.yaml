@@ -226,7 +226,7 @@ spec:
       - name: sensu-backend
         image: sensu/sensu:6.7.2
         command: [
-          "echo -e $(POD_IP)' \t 'sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local' \t 'sensu-etcd-0 >> /etc/hosts"
+          "echo -e $(POD_IP)' \t 'sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local' \t 'sensu-etcd-0 >> /etc/hosts",
           "/opt/sensu/bin/sensu-backend", "start",
           "--log-level", "debug",
           "--debug", "true",
