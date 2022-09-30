@@ -102,10 +102,6 @@ spec:
           "--listen-client-urls", "http://0.0.0.0:2379",
           "--election-timeout=50000",
           "--advertise-client-urls", "http://$(ETCDPOD_NAME):2379",
-        ][
-          "/bin/bash",
-          "-c",
-          "apt update -y"  
         ]
         env:
         - name: KUBE_NAMESPACE
