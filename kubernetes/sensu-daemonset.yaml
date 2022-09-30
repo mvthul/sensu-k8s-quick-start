@@ -26,7 +26,7 @@ spec:
       volumes: []
       containers:
       - name: sensu-agent
-        image: sensu/sensu:6.7.2
+        image: sensu/sensu:6.8.1
         command: [
           "/opt/sensu/bin/sensu-agent", "start",
           "--detect-cloud-provider", "true",

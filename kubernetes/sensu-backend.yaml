@@ -96,13 +96,7 @@ spec:
         image: gcr.io/etcd-development/etcd:v3.5.5
         command: ["/bin/bash","-c"]
         args: [
-          "apt update -y && apt install wget -y && /usr/local/bin/etcd",
-          "--data-dir", "/var/lib/etcd",
-          "--initial-cluster-state", "new",
-          "--name", "$(ETCDPOD_NAME)",
-          "--listen-client-urls", "http://0.0.0.0:2379",
-          "--election-timeout=50000",
-          "--advertise-client-urls", "http://$(ETCDPOD_NAME):2379",
+          "apt update && apt install wget -y && /usr/local/bin/etcd --data-dir /var/lib/etcd --initial-cluster-state new --name $(ETCDPOD_NAME) --listen-client-urls http://0.0.0.0:2379 --election-timeout=50000 --advertise-client-urls http://$(ETCDPOD_NAME):2379",
         ]
         env:
         - name: KUBE_NAMESPACE
@@ -140,7 +134,7 @@ spec:
             - http://127.0.0.1:2379/health
 
       - name: sensu-agent
-        image: sensu/sensu:6.7.2
+        image: sensu/sensu:6.8.1
         command: [
           "/opt/sensu/bin/sensu-agent", "start",
           "--log-level", "warn",
@@ -192,7 +186,7 @@ spec:
     matchLabels:
       app: sensu
   serviceName: sensu
-  replicas: 1
+  replicas: 3
   updateStrategy:
     type: RollingUpdate
   template:
@@ -225,15 +219,10 @@ spec:
         volumeMounts: [] 
       containers:
       - name: sensu-backend
-        image: sensu/sensu:6.7.2
-        command: [
-          "/opt/sensu/bin/sensu-backend", "start",
-          "--log-level", "debug",
-          "--debug", "true",
-          "--no-embed-etcd",
-          "--etcd-client-urls", "http://sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local:2379",
-          "--etcd-name", "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local",
-          "echo -e $(POD_IP)' \t 'sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local' \t 'sensu-etcd-0 >> /etc/hosts",
+        image: sensu/sensu:6.8.1
+        command: ["/bin/sh","-c"]
+        args: [
+          "apk add bind-tools && IP=$(dig +short sensu-etcd-0.sensu-etcd.sensu-system.svc.cluster.local | head -1) && echo -e $IP' \t 'sensu-etcd-0.sensu-etcd.sensu-system.svc.cluster.local' \t 'sensu-etcd-0 >> /etc/hosts && /opt/sensu/bin/sensu-backend start --log-level debug --debug true --no-embed-etcd --etcd-client-urls http://sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local:2379 --etcd-name sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local",
         ]
         env:
         - name: KUBE_NAMESPACE
@@ -264,18 +253,18 @@ spec:
           #   memory: 4096M
           #   cpu: 2.0
         readinessProbe:
-          initialDelaySeconds: 30
-          periodSeconds: 30
-          timeoutSeconds: 20
-          exec:
-            command:
-            - wget
-            - -q
-            - -O-
-            - http://127.0.0.1:8080/health
+         initialDelaySeconds: 180
+         periodSeconds: 30
+         timeoutSeconds: 20
+         exec:
+           command:
+           - wget
+           - -q
+           - -O-
+           - http://127.0.0.1:8080/health
 
       - name: sensu-agent
-        image: sensu/sensu:6.7.2
+        image: sensu/sensu:6.8.1
         command: [
           "/opt/sensu/bin/sensu-agent", "start",
           "--detect-cloud-provider", "true",
@@ -356,7 +345,7 @@ spec:
         volumeMounts: []
       containers:
       - name: sensu-backend-init
-        image: sensu/sensu:6.7.2
+        image: sensu/sensu:6.8.1
         command: [
           "/opt/sensu/bin/sensu-backend", "init",
           "--wait",
