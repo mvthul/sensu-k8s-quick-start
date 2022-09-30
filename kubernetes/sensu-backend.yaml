@@ -95,7 +95,7 @@ spec:
       - name: etcd
         image: gcr.io/etcd-development/etcd:v3.5.5
         command: [
-          "apt update -y && apt install wget -y &&/usr/local/bin/etcd",
+          "apt update -y && apt install wget -y && /usr/local/bin/etcd",
           "--data-dir", "/var/lib/etcd",
           "--initial-cluster-state", "new",
           "--name", "$(ETCDPOD_NAME)",
