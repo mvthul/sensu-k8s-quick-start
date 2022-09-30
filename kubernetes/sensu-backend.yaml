@@ -98,17 +98,17 @@ spec:
           "/usr/local/bin/etcd",
           "--data-dir", "/var/lib/etcd",
           "--initial-cluster-state", "new",
-          "--name", "$(ETCD_NAME)",
+          "--name", "$(ETCDPOD_NAME)",
           "--listen-client-urls", "http://0.0.0.0:2379",
           "--election-timeout=50000",
-          "--advertise-client-urls", "http://$(ETCD_NAME):2379",
+          "--advertise-client-urls", "http://$(ETCDPOD_NAME):2379",
         ]
         env:
         - name: KUBE_NAMESPACE
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: ETCD_NAME
+        - name: ETCDPOD_NAME
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
@@ -128,15 +128,15 @@ spec:
           #   memory: 4096M
           #   cpu: 2.0
         readinessProbe:
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          exec:
-            command:
-            - wget
-            - --no-check-certificate
-            - -q
-            - -O-
-            - http://127.0.0.1:2379/health
+          # initialDelaySeconds: 5
+          # periodSeconds: 5
+          # exec:
+          #   command:
+          #   - wget
+          #   - --no-check-certificate
+          #   - -q
+          #   - -O-
+          #   - http://127.0.0.1:2379/health
 
       - name: sensu-agent
         image: sensu/sensu:6.7.2
