@@ -242,6 +242,8 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: ETCD_ENDPOINTS
+          value: "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local"
         volumeMounts: []
         ports:
         - protocol: TCP
