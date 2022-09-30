@@ -221,7 +221,7 @@ spec:
         - name: ETCD_PODIP
           valueFrom:
             fieldRef:
-              fieldPath: metadata.annotations.cni.projectcalico.org/podIP
+              fieldPath: metadata.annotations.cni.projectcalico.org
         - name: TARGET_DNS
           value: "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local"
         ports: []
