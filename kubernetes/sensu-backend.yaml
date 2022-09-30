@@ -218,18 +218,15 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.namespace
-        - name: ETCD_PODIP
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.annotations.cni.projectcalico.org
         - name: TARGET_DNS
           value: "sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local"
         ports: []
-        volumeMounts: []
+        volumeMounts: [] 
       containers:
       - name: sensu-backend
         image: sensu/sensu:6.7.2
         command: [
+          "echo -e $(POD_IP)' \t 'sensu-etcd-0.sensu-etcd.$(KUBE_NAMESPACE).svc.cluster.local' \t 'sensu-etcd-0 >> /etc/hosts"
           "/opt/sensu/bin/sensu-backend", "start",
           "--log-level", "debug",
           "--debug", "true",
@@ -246,6 +243,10 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: metadata.name
+        - name: POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
         volumeMounts: []
         ports:
         - protocol: TCP
