@@ -93,7 +93,7 @@ spec:
           optional: true
       containers:
       - name: etcd
-        image: gcr.io/etcd-development/etcd:v3.3.22
+        image: gcr.io/etcd-development/etcd:v3.5.5
         command: [
           "/usr/local/bin/etcd",
           "--data-dir", "/var/lib/etcd",
