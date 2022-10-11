@@ -254,9 +254,7 @@ spec:
           valueFrom:
             fieldRef:
               fieldPath: status.podIP
-        volumeMounts:
-        - name: sensu-etcd-tls
-          mountPath: /etc/sensu/tls
+        volumeMounts: []
         ports:
         - protocol: TCP
           containerPort: 8080
