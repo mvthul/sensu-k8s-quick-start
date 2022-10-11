@@ -76,6 +76,14 @@ spec:
       resources:
         requests:
           storage: 20Gi
+      name: sensu-etcd-tls
+    spec:
+      storageClassName: sensu-azurefile
+      accessModes:
+        - "ReadWriteMany"
+      resources:
+        requests:
+          storage: 5Gi
   template:
     metadata:
       labels:
@@ -86,6 +94,9 @@ spec:
       - name: sensu-etcd
         persistentVolumeClaim:
           claimName: sensu-etcd
+      - name: sensu-etcd-tls
+        persistentVolumeClaim:
+          claimName: sensu-etcd-tls
       - name: sensu-asset-server-ca-cert
         secret:
           secretName: sensu-asset-server-ca-cert
@@ -110,6 +121,8 @@ spec:
         volumeMounts:
         - name: sensu-etcd
           mountPath: /var/lib/etcd
+        - name: sensu-etcd-tls
+          mountPath: /etc/sensu/tls
         ports:
         - protocol: TCP
           containerPort: 2379
