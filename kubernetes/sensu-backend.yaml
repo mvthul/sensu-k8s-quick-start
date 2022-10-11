@@ -76,6 +76,7 @@ spec:
       resources:
         requests:
           storage: 20Gi
+  - metadata:
       name: sensu-etcd-tls
     spec:
       storageClassName: sensu-azurefile
