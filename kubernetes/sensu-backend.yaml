@@ -214,9 +214,9 @@ spec:
           secretName: sensu-asset-server-ca-cert
           defaultMode: 256
           optional: true
-        - name: sensu-etcd-tls
-          persistentVolumeClaim:
-            claimName: sensu-etcd-tls-sensu-etcd-0
+      - name: sensu-etcd-tls
+        persistentVolumeClaim:
+          claimName: sensu-etcd-tls-sensu-etcd-0
       initContainers:
       - name: wait-for-etcd
         image: tutum/dnsutils:latest
