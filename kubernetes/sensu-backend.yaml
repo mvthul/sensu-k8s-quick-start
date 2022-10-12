@@ -137,15 +137,15 @@ spec:
           #   memory: 4096M
           #   cpu: 2.0
         readinessProbe:
-          initialDelaySeconds: 5
-          periodSeconds: 5
-          exec:
-            command:
-            - wget
-            - --no-check-certificate
-            - -q
-            - -O-
-            - https://127.0.0.1:2379/health
+          # initialDelaySeconds: 5
+          # periodSeconds: 5
+          # exec:
+          #   command:
+          #   - wget
+          #   - --no-check-certificate
+          #   - -q
+          #   - -O-
+          #   - https://127.0.0.1:2379/health
 
       - name: sensu-agent
         image: sensu/sensu:6.8.1
@@ -273,15 +273,15 @@ spec:
           #   memory: 4096M
           #   cpu: 2.0
         readinessProbe:
-         initialDelaySeconds: 60
-         periodSeconds: 30
-         timeoutSeconds: 20
-         exec:
-           command:
-           - wget
-           - -q
-           - -O-
-           - https://127.0.0.1:8080/health
+        #  initialDelaySeconds: 60
+        #  periodSeconds: 30
+        #  timeoutSeconds: 20
+        #  exec:
+        #    command:
+        #    - wget
+        #    - -q
+        #    - -O-
+        #    - https://127.0.0.1:8080/health
 
       - name: sensu-agent
         image: sensu/sensu:6.8.1
